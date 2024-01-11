@@ -7,15 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.min.js" integrity="sha384-heAjqF+bCxXpCWLa6Zhcp4fu20XoNIA98ecBC1YkdXhszjoejr5y9Q77hIrv8R9i" crossorigin="anonymous">
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
+    </script>
 
     <title>Data Antrian MCD</title>
 </head>
@@ -24,7 +26,7 @@
     <div class="container">
         <div id="message">
         </div>
-        <h1 class="mt-4 mb-4 text-center text-danger">ANTRIAN KONSUMEN GERAI MCD</h1>
+        <h1 class="mt-4 mb-4 text-center text-dark">ANTRIAN KONSUMEN MCD</h1>
         <span id="message"></span>
         <div class="card">
             <div class="card-header">
@@ -63,7 +65,7 @@
                 <form method="post" id="sample_form">
                     <div class="modal-header">
                         <h5 class="modal-title" id="dynamic_modal_title"></h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="hide"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
@@ -72,7 +74,7 @@
                             <span id="waktu_kedatangan_error" class="text-danger"></span>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-3 " id="selisih_datang">
                             <label class="form-label">Selisih Kedatangan</label>
                             <input type="text" name="selisihkedatangan" id="selisihkedatangan" class="form-control" />
                             <span id="selisihkedatangan" class="text-danger"></span>
@@ -82,7 +84,7 @@
                             <input type="time" name="awalpelayanan" id="awalpelayanan" class="form-control" />
                             <span id="waktu_awal_pelayanan_error" class="text-danger"></span>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3" id="selisih_pelayanan">
                             <label class="form-label">Selisih_Pelayanan_Kasir</label>
                             <input type="text" name="selisihpelayanankasir" id="selisihpelayanankasir" class="form-control" />
                             <span id="selisih_pelayanan_kasir_error" class="text-danger"></span>
@@ -92,7 +94,7 @@
                             <input type="time" name="selesai" id="selesai" class="form-control" />
                             <span id="waktu_selesai_error" class="text-danger"></span>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3" id="selisih_keluar">
                             <label class="form-label">Selisih Keluar Antrian</label>
                             <input type="text" name="selisihkeluarantrian" id="selisihkeluarantrian" class="form-control" />
                             <span id="selisih_keluar_antrian_error" class="text-danger"></span>
@@ -102,7 +104,7 @@
                     <div class="modal-footer">
                         <input type="hidden" name="id" id="id" />
                         <input type="hidden" name="action" id="action" value="Add" />
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="close">Tutup</button>
                         <button type="submit" class="btn btn-primary" id="action_button">Simpan</button>
                     </div>
                 </form>
@@ -119,7 +121,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <p>Gerai MCD melakukan percobaan awal waktu pelayanan
+                    <p> MCD melakukan percobaan awal waktu pelayanan
                         <b id="waktu_kedatangan_modal"></b>
                         Maka dari data yang telah dikumpulkan dapat disimpulkan sebagai berikut:
                     <ul>
@@ -134,7 +136,7 @@
 
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
                 </div>
 
             </div>
@@ -146,12 +148,16 @@
             showAll();
 
             $('#add_data').click(function() {
-                $('#dynamic_modal_title').text('Add Data konsumen Gerai MCD');
+                $('#dynamic_modal_title').text('Tambah Data konsumen  MCD');
                 $('#sample_form')[0].reset();
                 $('#action').val('Add');
                 $('#action_button').text('Simpan');
                 $('.text-danger').text('');
+                $('#selisih_datang').css('display', 'none');
+                $('#selisih_pelayanan').css('display', 'none');
+                $('#selisih_keluar').css('display', 'none');
                 $('#action_modal').modal('show');
+
             });
 
             $('#generate').click(function() {
@@ -201,11 +207,11 @@
                 if ($('#action').val() == "Add") {
                     var formData = {
                         'waktudatang': $('#waktudatang').val(),
-                        'selisihkedatangan': $('#selisihkedatangan').val(),
+                        // 'selisihkedatangan': $('#selisihkedatangan').val(),
                         'awalpelayanan': $('#awalpelayanan').val(),
-                        'selisihpelayanankasir': $('#selisihpelayanankasir').val(),
+                        // 'selisihpelayanankasir': $('#selisihpelayanankasir').val(),
                         'selesai': $('#selesai').val(),
-                        'selisihkeluarantrian': $('#selisihkeluarantrian').val(),
+                        // 'selisihkeluarantrian': $('#selisihkeluarantrian').val(),
                     };
 
 
@@ -329,6 +335,12 @@
 
             $('#action_modal').modal('show');
 
+            $('#selisih_datang').css('display', 'block');
+
+            $('#selisih_pelayanan').css('display', 'block');
+
+            $('#selisih_keluar').css('display', 'block');
+
             $.ajax({
                 type: "GET",
                 contentType: "application/json",
@@ -341,6 +353,7 @@
                     $('#selisihpelayanankasir').val(response.selisihpelayanankasir);
                     $('#selesai').val(response.selesai);
                     $('#selisihkeluarantrian').val(response.selisihkeluarantrian);
+
 
                 },
                 error: function(err) {
@@ -361,7 +374,7 @@
                 }),
                 success: function(data) {
                     $('#action_button').attr('disabled', false);
-                    $('#message').html('<div class="alert alert-success">' + data + '</div>');
+                    $('#message').html('<div class="alert alert-success">' + data.message + '</div>');
                     $('#action_modal').modal('hide');
                     $('#sample_data').DataTable().destroy();
                     showAll();
